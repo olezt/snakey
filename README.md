@@ -1,6 +1,5 @@
 ##JAVA SNAKE GAME
 
-
 A simple snake game in java .
 Using Threads and Java Swing to display the game.
 The code is well commented, if you have any questions or want to continue this project feel free to do so :)
@@ -14,14 +13,8 @@ The code is well commented, if you have any questions or want to continue this p
 ###Requirements:
 * Java runtime installed
 
-###Procedure:
+###How to play:
 
-* Just download the SnakeGame.jar file
+* Download SnakeGame.jar file
 * Run it 
-* Start playing with the arrows keys. 
-* If you lose, just close it and re-open it (I will add a restart button possibly)
-
-
-
-
-Made in a couple of hours ..
+* Enjoy 
