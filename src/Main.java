@@ -6,8 +6,16 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		boolean multiplayer = false;
+        for (String s: args) {
+        	if(s.equals("multiplayer")){
+            	System.out.println("Multiplayer mode!");
+                multiplayer = true;
+        	}
+        }
+		
 		//Creating the window with all its awesome snaky features
-		Window f1= new Window();
+		Window f1= new Window(multiplayer);
 		
 		//Setting up the window settings
 		f1.setTitle("Snake");

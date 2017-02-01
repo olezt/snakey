@@ -1,34 +1,58 @@
 package com.snakey;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 //Controls all the game logic .. most important class in this project.
-public class ThreadsController extends Thread {
-	 ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
-	 Tuple headSnakePos;
-	 int sizeSnake=3;
-	 long speed = 50;
-	 public static int directionSnake ;
+public class ThreadsController extends Thread{
+	ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
+	Snakey snakey;
+	Tuple headSnakePos;
+	
+	int id;
+	int sizeSnake=3;
+	int directionSnake;
+	 
+	public int getDirectionSnake() {
+		return directionSnake;
+	}
 
-	 ArrayList<Tuple> positions = new ArrayList<Tuple>();
-	 Tuple foodPosition;
+	public void setDirectionSnake(int directionSnake) {
+		this.directionSnake = directionSnake;
+	}
+	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	ArrayList<Tuple> positions = new ArrayList<Tuple>();
+	Tuple foodPosition;
 	 
 	 //Constructor of ControlleurThread 
-	 ThreadsController(Tuple positionDepart){
+	ThreadsController(Tuple positionDepart, int threadId){
+		super();
+        snakey = new Snakey();
+		id = threadId;
+	 		
 		//Get all the threads
 		Squares=Window.Grid;
 		
 		headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
-		directionSnake = 1;
-
+		
+		//Set random direction for each snakey
+		Random rand = new Random();
+		directionSnake = rand.nextInt(4) + 1;
+		
 		//!!! Pointer !!!!
 		Tuple headPos = new Tuple(headSnakePos.getX(),headSnakePos.getY());
 		positions.add(headPos);
 		
-		foodPosition= new Tuple(Window.height-1,Window.width-1);
-		spawnFood(foodPosition);
-
+		spawnFood();
 	 }
 	 
 	 //Important part :
@@ -45,7 +69,7 @@ public class ThreadsController extends Thread {
 	 //delay between each move of the snake
 	 private void pauser(){
 		 try {
-				sleep(speed);
+				sleep(snakey.getSpeed());
 		 } catch (InterruptedException e) {
 				e.printStackTrace();
 		 }
@@ -60,14 +84,12 @@ public class ThreadsController extends Thread {
 				stopTheGame();
 			 }
 		 }
-		 
-		 boolean eatingFood = posCritique.getX()==foodPosition.y && posCritique.getY()==foodPosition.x;
+		 boolean eatingFood = posCritique.getX()==snakey.foodPosition.y && posCritique.getY()==snakey.foodPosition.x;
 		 if(eatingFood){
-			 System.out.println("Yummy!");
 			 sizeSnake=sizeSnake+1;
-			 	foodPosition = getValAleaNotInSnake();
-
-			 spawnFood(foodPosition);	
+			 System.out.println("Yummy for snakey "+id+" ! Sizey now is "+sizeSnake);
+			 snakey.foodPosition = getValAleaNotInSnake();
+			 spawnFood();	
 		 }
 	 }
 	 
@@ -80,8 +102,8 @@ public class ThreadsController extends Thread {
 	 }
 	 
 	 //Put food in a position and displays it
-	 private void spawnFood(Tuple foodPositionIn){
-		 	Squares.get(foodPositionIn.x).get(foodPositionIn.y).lightMeUp(1);
+	 private void spawnFood(){
+		 Squares.get(snakey.foodPosition.x).get(snakey.foodPosition.y).lightMeUp(1);
 	 }
 	 
 	 //return a position not occupied by the snake

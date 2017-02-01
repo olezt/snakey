@@ -11,8 +11,7 @@ class Window extends JFrame{
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
 	public static int width = Constants.SIZE;
 	public static int height = Constants.SIZE;
-	public Window(){
-		
+	public Window(boolean multiplayer){
 		
 		// Creates the arraylist that'll contain the threads
 		Grid = new ArrayList<ArrayList<DataOfSquare>>();
@@ -29,8 +28,7 @@ class Window extends JFrame{
 		}
 		
 		// Setting up the layout of the panel
-		getContentPane().setLayout(new GridLayout(width,height,0,0));
-		
+		getContentPane().setLayout(new GridLayout(width,height,0,0));		
 
 		// Start & pauses all threads, then adds every square of each thread to the panel
 		for(int i=0;i<width;i++){
@@ -42,18 +40,20 @@ class Window extends JFrame{
 		// initial position of the snake
 		Tuple position = new Tuple(10,10);
 		// passing this value to the controller
-		ThreadsController c = new ThreadsController(position);
+		ThreadsController c1 = new ThreadsController(position, 1);
 		//Let's start the game now..
-		c.start();
+		c1.start();
 
 		// Links the window to the keyboardlistenner.
-		this.addKeyListener((KeyListener) new KeyboardListener());
+		this.addKeyListener((KeyListener) new KeyboardListener(c1));
 
 		//To do : handle multiplayers .. The above works, test it and see what happens
+		if(multiplayer){
+			Tuple position2 = new Tuple(13,13);
+			ThreadsController c2 = new ThreadsController(position2, 2);
+			c2.start();
 		
-		//Tuple position2 = new Tuple(13,13);
-		//ControlleurThreads c2 = new ControlleurThreads(position2);
-		//c2.start();
-		
+			this.addKeyListener((KeyListener) new KeyboardListener(c2));
+		}
 	}
 }
