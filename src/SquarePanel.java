@@ -1,3 +1,5 @@
+package com.snakey;
+
 import java.awt.Color;
 import javax.swing.JPanel;
 

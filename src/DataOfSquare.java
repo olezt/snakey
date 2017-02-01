@@ -1,3 +1,5 @@
+package com.snakey;
+
 import java.util.ArrayList;
 import java.awt.Color;
 

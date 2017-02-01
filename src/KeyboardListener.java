@@ -1,3 +1,5 @@
+package com.snakey;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
