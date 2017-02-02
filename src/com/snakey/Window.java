@@ -40,7 +40,7 @@ class Window extends JFrame{
 		// initial position of the snake
 		Tuple position = new Tuple(10,10);
 		// passing this value to the controller
-		ThreadsController c1 = new ThreadsController(position, 1);
+		ThreadsController c1 = new ThreadsController(position, 1, null);
 		//Let's start the game now..
 		c1.start();
 
@@ -50,7 +50,7 @@ class Window extends JFrame{
 		//To do : handle multiplayers .. The above works, test it and see what happens
 		if(multiplayer){
 			Tuple position2 = new Tuple(13,13);
-			ThreadsController c2 = new ThreadsController(position2, 2);
+			ThreadsController c2 = new ThreadsController(position2, 2, c1);
 			c2.start();
 		
 			this.addKeyListener((KeyListener) new KeyboardListener(c2));

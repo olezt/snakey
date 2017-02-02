@@ -9,11 +9,12 @@ public class ThreadsController extends Thread{
 	ArrayList<ArrayList<DataOfSquare>> Squares= new ArrayList<ArrayList<DataOfSquare>>();
 	Snakey snakey;
 	Tuple headSnakePos;
+	ThreadsController otherThreadsController;
 	
 	int id;
 	int sizeSnake=3;
 	int directionSnake;
-	 
+
 	public int getDirectionSnake() {
 		return directionSnake;
 	}
@@ -34,11 +35,12 @@ public class ThreadsController extends Thread{
 	Tuple foodPosition;
 	 
 	 //Constructor of ControlleurThread 
-	ThreadsController(Tuple positionDepart, int threadId){
+	ThreadsController(Tuple positionDepart, int threadId, ThreadsController threadsController1){
 		super();
-        snakey = new Snakey();
+        snakey = new Snakey();	
 		id = threadId;
-	 		
+		otherThreadsController = threadsController1;
+		
 		//Get all the threads
 		Squares=Window.Grid;
 		
@@ -57,7 +59,7 @@ public class ThreadsController extends Thread{
 	 
 	 //Important part :
 	 public void run() {
-		 while(true){
+		 while(!Snakey.getCollision()){
 			 moveInterne(directionSnake);
 			 checkCollision();
 			 moveExterne();
@@ -69,21 +71,40 @@ public class ThreadsController extends Thread{
 	 //delay between each move of the snake
 	 private void pauser(){
 		 try {
-				sleep(snakey.getSpeed());
+			sleep(snakey.getSpeed());
 		 } catch (InterruptedException e) {
-				e.printStackTrace();
+			e.printStackTrace();
 		 }
 	 }
 	 
-	 //Checking if the snake bites itself or is eating
+	 //Checking for collisions or eating
 	 private void checkCollision() {
 		 Tuple posCritique = positions.get(positions.size()-1);
+		 
 		 for(int i = 0;i<=positions.size()-2;i++){
 			 boolean biteItself = posCritique.getX()==positions.get(i).getX() && posCritique.getY()==positions.get(i).getY();
 			 if(biteItself){
 				stopTheGame();
 			 }
 		 }
+		 
+		 if(id==2){
+			 for(int i = 0;i<=otherThreadsController.positions.size()-2;i++){
+				 boolean biteSnakey1 = posCritique.getX()==otherThreadsController.positions.get(i).getX() && posCritique.getY()==otherThreadsController.positions.get(i).getY();
+				 if(biteSnakey1){
+					 stopTheGame();
+				 }
+			 }
+			 
+			 Tuple posCritique1 = otherThreadsController.positions.get(otherThreadsController.positions.size()-1);
+			 for(int i = 0;i<=positions.size()-2;i++){
+				 boolean biteSnakey2 = posCritique1.getX()==positions.get(i).getX() && posCritique1.getY()==positions.get(i).getY();
+				 if(biteSnakey2){
+					 stopTheGame();
+				 }
+			 }
+		 }
+		 
 		 boolean eatingFood = posCritique.getX()==snakey.foodPosition.y && posCritique.getY()==snakey.foodPosition.x;
 		 if(eatingFood){
 			 sizeSnake=sizeSnake+1;
@@ -96,9 +117,7 @@ public class ThreadsController extends Thread{
 	 //Stops The Game
 	 private void stopTheGame(){
 		 System.out.println("COLISION! \n");
-		 while(true){
-			 pauser();
-		 }
+		 Snakey.setCollision(true);
 	 }
 	 
 	 //Put food in a position and displays it

@@ -3,6 +3,7 @@ package com.snakey;
 public class Snakey {
 	public Tuple foodPosition = new Tuple(Window.height-1,Window.width-1);
 	public long speed = 50;
+	public static boolean collision = false;
 
 	public Tuple getFoodPosition() {
 		return foodPosition;
@@ -18,6 +19,14 @@ public class Snakey {
 
 	public void setSpeed(long speed) {
 		this.speed = speed;
+	}
+
+	public static boolean getCollision() {
+		return collision;
+	}
+
+	public static void setCollision(boolean collision) {
+		Snakey.collision = collision;
 	}
 	
 }
