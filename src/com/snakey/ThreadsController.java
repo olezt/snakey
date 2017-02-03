@@ -2,6 +2,9 @@ package com.snakey;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JOptionPane;
 
 
 //Controls all the game logic .. most important class in this project.
@@ -10,7 +13,6 @@ public class ThreadsController extends Thread{
 	Snakey snakey;
 	Tuple headSnakePos;
 	ThreadsController otherThreadsController;
-	
 	int id;
 	int sizeSnake=3;
 	int directionSnake;
@@ -31,29 +33,27 @@ public class ThreadsController extends Thread{
 		this.id = id;
 	}
 
+	public ThreadsController getOtherThreadsController() {
+		return otherThreadsController;
+	}
+
+	public void setOtherThreadsController(ThreadsController otherThreadsController) {
+		this.otherThreadsController = otherThreadsController;
+	}
+
 	ArrayList<Tuple> positions = new ArrayList<Tuple>();
 	Tuple foodPosition;
 	 
 	 //Constructor of ControlleurThread 
-	ThreadsController(Tuple positionDepart, int threadId, ThreadsController threadsController1){
+	ThreadsController(int threadId){
 		super();
         snakey = new Snakey();	
 		id = threadId;
-		otherThreadsController = threadsController1;
 		
 		//Get all the threads
 		Squares=Window.Grid;
 		
-		headSnakePos=new Tuple(positionDepart.x,positionDepart.y);
-		
-		//Set random direction for each snakey
-		Random rand = new Random();
-		directionSnake = rand.nextInt(4) + 1;
-		
-		//!!! Pointer !!!!
-		Tuple headPos = new Tuple(headSnakePos.getX(),headSnakePos.getY());
-		positions.add(headPos);
-		
+		init();
 		spawnFood();
 	 }
 	 
@@ -66,6 +66,55 @@ public class ThreadsController extends Thread{
 			 deleteTail();
 			 pauser();
 		 }
+		 if(Snakey.getCollision()){
+			 if(id==1){
+				 int input = JOptionPane.showOptionDialog(null, "Play again?", "Collision!", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+				 if(input == JOptionPane.OK_OPTION){
+					 Snakey.setCollision(false);
+					 // Restart game!
+					 init();
+					 run();
+					 JOptionPane.getRootFrame().dispose();
+				 }else{
+					 // End game!
+					 JOptionPane.getRootFrame().dispose();
+				 }
+			 }else if(id==2){
+				 waitForRestart();
+			 }
+		 }
+	 }
+	 
+	public void waitForRestart() {
+		if(Snakey.getCollision()){
+			 try {
+				 TimeUnit.SECONDS.sleep(1);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			waitForRestart();
+		}else{
+			init();
+			run();
+		}
+	}
+
+	//delay between each move of the snake
+	 public void init(){
+		sizeSnake=3;
+		Random rand = new Random();
+		// initial position of the snake
+		Tuple position = new Tuple(rand.nextInt(Constants.SIZE) + 1,rand.nextInt(Constants.SIZE) + 1);
+		// passing this value to the controller
+		headSnakePos=new Tuple(position.x,position.y);
+		
+		//Set random direction for each snakey
+		directionSnake = rand.nextInt(4) + 1;
+		
+		//!!! Pointer !!!!
+		Tuple headPos = new Tuple(headSnakePos.getX(),headSnakePos.getY());
+		positions.add(headPos);
+			
 	 }
 	 
 	 //delay between each move of the snake

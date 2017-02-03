@@ -4,6 +4,7 @@ public class Snakey {
 	public Tuple foodPosition = new Tuple(Window.height-1,Window.width-1);
 	public long speed = 50;
 	public static boolean collision = false;
+	public static boolean multiplayer = false;
 
 	public Tuple getFoodPosition() {
 		return foodPosition;
@@ -27,6 +28,14 @@ public class Snakey {
 
 	public static void setCollision(boolean collision) {
 		Snakey.collision = collision;
+	}
+
+	public static boolean isMultiplayer() {
+		return multiplayer;
+	}
+
+	public static void setMultiplayer(boolean multiplayer) {
+		Snakey.multiplayer = multiplayer;
 	}
 	
 }
