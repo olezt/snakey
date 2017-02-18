@@ -2,9 +2,11 @@ package com.snakey;
 
 public class Snakey {
 	public Tuple foodPosition = new Tuple(Window.height-1,Window.width-1);
-	public long speed = 50;
+	// Default options
+	public static long speed = Constants.SPEED;
 	public static boolean collision = false;
-	public static boolean multiplayer = false;
+	public static boolean multiplayer = Constants.MULTIPLAYER;
+	public static int size = Constants.SIZE; 
 
 	public Tuple getFoodPosition() {
 		return foodPosition;
@@ -14,12 +16,12 @@ public class Snakey {
 		this.foodPosition = foodPosition;
 	}
 
-	public long getSpeed() {
+	public static long getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(long speed) {
-		this.speed = speed;
+	public static void setSpeed(long speed) {
+		Snakey.speed = speed;
 	}
 
 	public static boolean getCollision() {
@@ -36,6 +38,14 @@ public class Snakey {
 
 	public static void setMultiplayer(boolean multiplayer) {
 		Snakey.multiplayer = multiplayer;
+	}
+
+	public static int getSize() {
+		return size;
+	}
+
+	public static void setSize(int size) {
+		Snakey.size = size;
 	}
 	
 }

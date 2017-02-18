@@ -104,7 +104,7 @@ public class ThreadsController extends Thread{
 		sizeSnake=3;
 		Random rand = new Random();
 		// initial position of the snake
-		Tuple position = new Tuple(rand.nextInt(Constants.SIZE) + 1,rand.nextInt(Constants.SIZE) + 1);
+		Tuple position = new Tuple(rand.nextInt(Snakey.getSize() + 1),rand.nextInt(Snakey.getSize() + 1));
 		// passing this value to the controller
 		headSnakePos=new Tuple(position.x,position.y);
 		
@@ -120,7 +120,7 @@ public class ThreadsController extends Thread{
 	 //delay between each move of the snake
 	 private void pauser(){
 		 try {
-			sleep(snakey.getSpeed());
+			sleep(Snakey.getSpeed());
 		 } catch (InterruptedException e) {
 			e.printStackTrace();
 		 }
@@ -177,13 +177,13 @@ public class ThreadsController extends Thread{
 	 //return a position not occupied by the snake
 	 private Tuple getValAleaNotInSnake(){
 		 Tuple p ;
-		 int ranX= 0 + (int)(Math.random()*Constants.SIZE-1); 
-		 int ranY= 0 + (int)(Math.random()*Constants.SIZE-1); 
+		 int ranX= 0 + (int)(Math.random()*Snakey.getSize()-1); 
+		 int ranY= 0 + (int)(Math.random()*Snakey.getSize()-1); 
 		 p=new Tuple(ranX,ranY);
 		 for(int i = 0;i<=positions.size()-1;i++){
 			 if(p.getY()==positions.get(i).getX() && p.getX()==positions.get(i).getY()){
-				 ranX= 0 + (int)(Math.random()*Constants.SIZE-1); 
-				 ranY= 0 + (int)(Math.random()*Constants.SIZE-1); 
+				 ranX= 0 + (int)(Math.random()*Snakey.getSize()-1); 
+				 ranY= 0 + (int)(Math.random()*Snakey.getSize()-1); 
 				 p=new Tuple(ranX,ranY);
 				 i=0;
 			 }
@@ -191,40 +191,37 @@ public class ThreadsController extends Thread{
 		 return p;
 	 }
 	 
-	 //Moves the head of the snake and refreshes the positions in the arraylist
-	 //1:right 2:left 3:top 4:bottom 0:nothing
-	 private void moveInterne(int dir){
-		 switch(dir){
-		 	case 4:
-				 headSnakePos.ChangeData(headSnakePos.x,(headSnakePos.y+1)%Constants.SIZE);
-				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		 	case 3:
-		 		if(headSnakePos.y-1<0){
-		 			 headSnakePos.ChangeData(headSnakePos.x,Constants.SIZE-1);
-		 		 }
-		 		else{
-				 headSnakePos.ChangeData(headSnakePos.x,Math.abs(headSnakePos.y-1)%Constants.SIZE);
-		 		}
-				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		break;
-		 	case 2:
-		 		 if(headSnakePos.x-1<0){
-		 			 headSnakePos.ChangeData(Constants.SIZE-1,headSnakePos.y);
-		 		 }
-		 		 else{
-		 			 headSnakePos.ChangeData(Math.abs(headSnakePos.x-1)%Constants.SIZE,headSnakePos.y);
-		 		 } 
-		 		positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
+	//Moves the head of the snake and refreshes the positions in the arraylist
+	//1:right 2:left 3:top 4:bottom 0:nothing
+	private void moveInterne(int dir){
+		switch(dir){
+			case 4:
+				headSnakePos.ChangeData(headSnakePos.x,(headSnakePos.y+1)%Snakey.size);
+				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
+				break;
+			case 3:
+				if(headSnakePos.y-1<0){
+					headSnakePos.ChangeData(headSnakePos.x,Snakey.getSize()-1);
+			 	}else{
+					headSnakePos.ChangeData(headSnakePos.x,Math.abs(headSnakePos.y-1)%Snakey.size);
+			 	}
+				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
+			 	break;
+			case 2:
+				if(headSnakePos.x-1<0){
+			 		headSnakePos.ChangeData(Snakey.getSize()-1,headSnakePos.y);
+				}else{
+			 		headSnakePos.ChangeData(Math.abs(headSnakePos.x-1)%Snakey.getSize(),headSnakePos.y);
+				} 
+				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
+				break;
+			case 1:
+				headSnakePos.ChangeData(Math.abs(headSnakePos.x+1)%Snakey.getSize(),headSnakePos.y);
+				positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
+			 	break;
+			}
+		}
 
-		 		break;
-		 	case 1:
-				 headSnakePos.ChangeData(Math.abs(headSnakePos.x+1)%Constants.SIZE,headSnakePos.y);
-				 positions.add(new Tuple(headSnakePos.x,headSnakePos.y));
-		 		 break;
-		 }
-	 }
-	 
 	 //Refresh the squares that needs to be 
 	 private void moveExterne(){
 		 for(Tuple t : positions){

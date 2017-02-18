@@ -9,9 +9,9 @@ import javax.swing.JFrame;
 class Window extends JFrame{
 	private static final long serialVersionUID = -2542001418764869760L;
 	public static ArrayList<ArrayList<DataOfSquare>> Grid;
-	public static int width = Constants.SIZE;
-	public static int height = Constants.SIZE;
-	public Window(boolean multiplayer){
+	public static int width = Snakey.size;
+	public static int height = Snakey.size;
+	public Window(){
 		
 		// Creates the arraylist that'll contain the threads
 		Grid = new ArrayList<ArrayList<DataOfSquare>>();
@@ -46,7 +46,7 @@ class Window extends JFrame{
 		this.addKeyListener((KeyListener) new KeyboardListener(c1));
 
 		// If Multiplayer mode
-		if(multiplayer){
+		if(Snakey.multiplayer){
 			ThreadsController c2 = new ThreadsController(2);
 			c2.setOtherThreadsController(c1);
 			c2.start();
