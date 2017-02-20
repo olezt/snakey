@@ -159,6 +159,9 @@ public class ThreadsController extends Thread{
 			 sizeSnake=sizeSnake+1;
 			 System.out.println("Yummy for snakey "+id+" ! Sizey now is "+sizeSnake);
 			 snakey.foodPosition = getValAleaNotInSnake();
+			 if(otherThreadsController != null){
+				 otherThreadsController.snakey.foodPosition = snakey.foodPosition;
+			 }
 			 spawnFood();	
 		 }
 	 }
