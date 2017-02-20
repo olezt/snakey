@@ -1,20 +1,35 @@
-##JAVA SNAKE GAME
+# Snakey
+A multiplayer snake game in JAVA
 
-A simple snake game in java .
-Using Threads and Java Swing to display the game.
-The code is well commented, if you have any questions or want to continue this project feel free to do so :)
+**Author: olezt**
 
-##Preview:
+### Features
+
+1. Supports one player game
+2. Supports multiplayer game
+3. Different size of grid
+4. Different speed of snakey
+
+### Printscreen
 
 ![alt tag](http://i62.tinypic.com/behbw3.png)
 
-##How to run the game:
+### Cli Arguments
 
-###Requirements:
-* Java runtime installed
+Name   |   Description   |   Example
+------------ | ------------- | -------------
+multiplayer   |  Enables multiplayer mode | java -jar snakey.jar multiplayer
+size 	  |  Set the size of the window | java -jar snakey.jar size30
+speed   |  Set the speed of the snake | java -jar snakey.jar speed60
 
-###How to play:
+### How to play
 
-* Download SnakeGame.jar file
-* Run it 
-* Enjoy 
+* Download .jar file
+* Open cmd and execute ```java -jar snakey.jar```<br>
+* Try the cli arguments 
+
+### Requirements
+
+1. JAVA Runtime installed
+
+The project root: https://github.com/overben/Snake
