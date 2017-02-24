@@ -12,7 +12,7 @@ A multiplayer snake game in JAVA
 
 ### Printscreen
 
-![alt tag](http://i62.tinypic.com/behbw3.png)
+![alt tag](https://github.com/olezt/snakey/blob/master/Capture.PNG?raw=true)
 
 ### Cli Arguments
 
